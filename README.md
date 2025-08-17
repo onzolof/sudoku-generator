@@ -107,7 +107,3 @@ python sudoku.py -config hard:5:17 -output symmetrical_hard_puzzles.pdf --use-sy
 ### Generate Puzzles in Parallel:
 
 The generator automatically detects the number of CPU cores available and parallelizes the puzzle generation process. No additional flags are needed for multiprocessing.
-
-## Contributing
-
-Feel free to fork this repository and submit pull requests for improvements or bug fixes. If you have any issues or feature requests, please open an issue.
