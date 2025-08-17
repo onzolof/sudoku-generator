@@ -111,7 +111,3 @@ The generator automatically detects the number of CPU cores available and parall
 ## Contributing
 
 Feel free to fork this repository and submit pull requests for improvements or bug fixes. If you have any issues or feature requests, please open an issue.
-
-## License
-
-This project is licensed under the MIT License.
