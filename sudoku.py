@@ -13,6 +13,7 @@ Supports parallel processing to utilize all CPU cores for generating puzzles con
 from multiprocessing import Pool, cpu_count
 from advanced_sudoku_generator import AdvancedSudokuGenerator
 from pdf_generator import PDFGenerator
+from csv_generator import CSVGenerator
 from argument_parser import ArgumentParser
 
 # Helper function for multiprocessing
@@ -62,15 +63,20 @@ def main():
     with Pool(processes=num_cores) as pool:
         puzzles_generated_flat = pool.map(generate_puzzle_task, tasks)
 
-    # Generate and save puzzle PDFs
-    pdf_generator.generate_puzzles_pdf(puzzles_generated_flat, "sudoku_puzzles")
-    pdf_generator.save_pdf(args.output)
+    # Generate and save puzzles based on format
+    if args.format == 'csv':
+        csv_generator = CSVGenerator()
+        csv_generator.generate_puzzles_csv(puzzles_generated_flat, args.output)
+    else:
+        # Generate and save puzzle PDFs
+        pdf_generator.generate_puzzles_pdf(puzzles_generated_flat, "sudoku_puzzles")
+        pdf_generator.save_pdf(args.output)
 
-    # Generate answers PDF if requested
-    if args.gen_answers:
-        answers_pdf_generator = PDFGenerator()
-        answers_pdf_generator.generate_puzzles_pdf(puzzles_generated_flat, "sudoku_puzzles", is_answer=True)
-        answers_pdf_generator.save_pdf(args.output.replace('.pdf', '_answers.pdf'))
+        # Generate answers PDF if requested
+        if args.gen_answers:
+            answers_pdf_generator = PDFGenerator()
+            answers_pdf_generator.generate_puzzles_pdf(puzzles_generated_flat, "sudoku_puzzles", is_answer=True)
+            answers_pdf_generator.save_pdf(args.output.replace('.pdf', '_answers.pdf'))
 
 if __name__ == "__main__":
     main()  # Ensure main() is executed directly to avoid multiprocessing issues

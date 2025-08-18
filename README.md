@@ -11,6 +11,7 @@ This is a **Sudoku Puzzle Generator** written in Python, supporting the generati
 - **Solution Generation**: Generate a separate PDF with solutions for the puzzles.
 - **Parallel Puzzle Generation**: Uses multiprocessing to generate puzzles in parallel, utilizing all available CPU cores for faster generation.
 - **PDF Output**: Outputs generated puzzles and solutions as PDFs.
+- **CSV Output**: Generate puzzles in CSV format with puzzle data and solutions for easy data processing.
 
 ## Installation
 
@@ -59,7 +60,9 @@ python sudoku.py -config 5:17 -output sudoku_puzzles.pdf --use-symmetry --gen-an
 - `-config`: Specify the number of puzzles and clues in the format `count:clues`. You can provide multiple configurations. 
   - Example: `-config 10:40` generates 10 puzzles with 40 clues each.
   
-- `-output`: Specify the name of the output PDF file (e.g., `sudoku_puzzles.pdf`).
+- `-output`: Specify the name of the output file (e.g., `sudoku_puzzles.pdf` or `sudoku_puzzles.csv`).
+
+- `--format`: Specify the output format: `pdf` (default) or `csv`.
 
 - `--gen-answers`: If this flag is provided, a second PDF with the solutions will be generated.
 
@@ -97,3 +100,22 @@ python sudoku.py -config 5:17 -output symmetrical_puzzles.pdf --use-symmetry
 ### Generate Puzzles in Parallel:
 
 The generator automatically detects the number of CPU cores available and parallelizes the puzzle generation process. No additional flags are needed for multiprocessing.
+
+### Generate CSV Output:
+
+To generate puzzles in CSV format instead of PDF:
+
+```bash
+python sudoku.py -config 10:25 -output puzzles.csv --format csv
+```
+
+This will generate a CSV file with the following columns:
+- `number_of_clues`: The number of clues in the puzzle
+- `puzzle`: The puzzle grid as a single string (0 represents empty cells, left to right, top to bottom)
+- `solution`: The complete solution as a single string (left to right, top to bottom)
+
+The CSV format is useful for:
+- Data analysis and processing
+- Importing into other applications
+- Machine learning datasets
+- Database storage

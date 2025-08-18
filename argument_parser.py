@@ -4,12 +4,13 @@ import sys
 class ArgumentParser:
     def __init__(self):
         self.parser = argparse.ArgumentParser(
-            description="Generate Sudoku puzzles PDF with specified number of clues.",
+            description="Generate Sudoku puzzles in PDF or CSV format with specified number of clues.",
             formatter_class=argparse.RawTextHelpFormatter,
             epilog="""
 Examples:
   python sudoku.py -config 20:40 -config 30:35 --use-symmetry
   python sudoku.py -config 10:17 -output sudoku_puzzles.pdf --gen-answers
+  python sudoku.py -config 5:25 -output sudoku_puzzles.csv --format csv
         """
         )
         self._add_arguments()
@@ -24,11 +25,19 @@ Examples:
             required=True
         )
 
-        # Output PDF file name
+        # Output file name
         self.parser.add_argument(
             '-output', 
-            help="Name of the output PDF file (e.g., sudoku_puzzles.pdf).", 
+            help="Name of the output file (e.g., sudoku_puzzles.pdf or sudoku_puzzles.csv).", 
             required=True
+        )
+
+        # Output format
+        self.parser.add_argument(
+            '--format', 
+            choices=['pdf', 'csv'], 
+            default='pdf',
+            help="Output format: 'pdf' or 'csv' (default: pdf)."
         )
 
         # Generate answers
