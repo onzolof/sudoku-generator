@@ -4,23 +4,23 @@ import sys
 class ArgumentParser:
     def __init__(self):
         self.parser = argparse.ArgumentParser(
-            description="Generate Sudoku puzzles PDF with optional minimum clues for each difficulty.",
+            description="Generate Sudoku puzzles PDF with specified number of clues.",
             formatter_class=argparse.RawTextHelpFormatter,
             epilog="""
 Examples:
-  python sudoku.py -config easy:20:40 -config medium:30:35 --use-symmetry
-  python sudoku.py -config hard:10:17 -output sudoku_puzzles.pdf --gen-answers
+  python sudoku.py -config 20:40 -config 30:35 --use-symmetry
+  python sudoku.py -config 10:17 -output sudoku_puzzles.pdf --gen-answers
         """
         )
         self._add_arguments()
 
     def _add_arguments(self):
-        # Puzzle difficulty and number of puzzles in format "easy:20:40" (difficulty:count:clues)
+        # Puzzle count and clues in format "20:40" (count:clues)
         self.parser.add_argument(
             '-config', 
             action='append', 
-            help='Puzzle difficulty and number in format "easy:20", "medium:35", "hard:10".\n'
-                 'You can specify multiple difficulties with different counts.',
+            help='Puzzle count and clues in format "20:40" (count:clues).\n'
+                 'You can specify multiple configurations with different counts and clue levels.',
             required=True
         )
 

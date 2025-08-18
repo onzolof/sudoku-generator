@@ -5,15 +5,15 @@ class PDFGenerator:
         self.pdf = FPDF()
         self.pdf.set_auto_page_break(auto=True, margin=15)
 
-    def add_title_page(self, difficulty):
+    def add_title_page(self, title):
         self.pdf.add_page()
         self.pdf.set_font('Arial', 'B', 24)
-        self.pdf.cell(0, 100, f'{difficulty.capitalize()} Sudoku Puzzles', ln=True, align='C')
+        self.pdf.cell(0, 100, title, ln=True, align='C')
 
-    def add_sudoku_to_pdf(self, sudoku, puzzle_num, difficulty, offset_y, title_suffix="Sudoku Puzzle"):
+    def add_sudoku_to_pdf(self, sudoku, puzzle_num, offset_y, title_suffix="Sudoku Puzzle"):
         self.pdf.set_font('Arial', 'B', 16)
         self.pdf.set_xy(0, offset_y - 15)
-        self.pdf.cell(210, 10, f'{difficulty.capitalize()} {title_suffix} #{puzzle_num}', ln=True, align='C')
+        self.pdf.cell(210, 10, f'{title_suffix} #{puzzle_num}', ln=True, align='C')
 
         # Center the puzzle grid horizontally
         cell_size = 10
@@ -31,18 +31,19 @@ class PDFGenerator:
             self.pdf.line(offset_x + i * cell_size, offset_y, offset_x + i * cell_size, offset_y + 9 * cell_size)
             self.pdf.line(offset_x, offset_y + i * cell_size, offset_x + 9 * cell_size, offset_y + i * cell_size)
 
-    def generate_puzzles_pdf(self, puzzles, difficulty, is_answer=False):
-        self.add_title_page(difficulty if not is_answer else difficulty + " Answers")
+    def generate_puzzles_pdf(self, puzzles, title, is_answer=False):
+        page_title = f"{title} Answers" if is_answer else title
+        self.add_title_page(page_title)
         total_puzzles = len(puzzles)
         for i in range(0, total_puzzles, 2):
             self.pdf.add_page()
             # First puzzle
             # If generating answers, use the solutions (puzzles[i][1]), otherwise use the puzzles (puzzles[i][0])
-            self.add_sudoku_to_pdf(puzzles[i][1] if is_answer else puzzles[i][0], i + 1, difficulty, offset_y=40, title_suffix="Solution" if is_answer else "Sudoku Puzzle")
+            self.add_sudoku_to_pdf(puzzles[i][1] if is_answer else puzzles[i][0], i + 1, offset_y=40, title_suffix="Solution" if is_answer else "Sudoku Puzzle")
             
             # Second puzzle if it exists
             if i + 1 < total_puzzles:
-                self.add_sudoku_to_pdf(puzzles[i + 1][1] if is_answer else puzzles[i + 1][0], i + 2, difficulty, offset_y=180, title_suffix="Solution" if is_answer else "Sudoku Puzzle")
+                self.add_sudoku_to_pdf(puzzles[i + 1][1] if is_answer else puzzles[i + 1][0], i + 2, offset_y=180, title_suffix="Solution" if is_answer else "Sudoku Puzzle")
 
     def save_pdf(self, output_file):
         self.pdf.output(output_file)

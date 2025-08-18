@@ -5,7 +5,7 @@ from puzzle_generator import PuzzleGenerator
 
 class AdvancedSudokuGenerator(PuzzleGenerator):
     
-    def generate_professional_sudoku(self, min_clues=30, symmetry=False, required_difficulty="medium"):
+    def generate_professional_sudoku(self, min_clues=30, symmetry=False):
         grid = np.zeros((9, 9), dtype=int)
         self.fill_grid(grid)  # Create a fully solved grid
 
